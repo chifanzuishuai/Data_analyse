@@ -5,3 +5,4 @@ numpy==1.23.5
 matplotlib==3.8.2
 seaborn==0.13.1
 pyecharts==2.0.4
+streamlit_echarts
