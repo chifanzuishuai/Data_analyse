@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import pickle
 import time
-
 from matplotlib import pyplot as plt
 from  matplotlib.ticker import FuncFormatter
 import seaborn as sns
@@ -50,6 +49,10 @@ else:
     filtered_df = df_database[(df_database['Fact_date'] >= Srart_date) & (df_database['Fact_date'] <= End_date) & (df_database['Branch_code1'] == selected_branch)]
 
 
+st.sidebar.markdown("")
+st.sidebar.markdown("")
+st.sidebar.markdown("")
+st.sidebar.markdown("##### Copyright ©2024 数智品控")
 # 测试筛选条件用
 # st.dataframe(filtered_df,use_container_width=True)
 
@@ -167,24 +170,24 @@ with row5_1:
 
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
 with row6_1:
-    st.subheader('Analysis per Team')
+    st.markdown("#####  不同维度指标分布和对比")
 
 row7_spacer1, row7_1, row7_spacer2, row7_2, row7_spacer3, row7_3, row7_spacer4, row7_4, row7_spacer5   = st.columns((.2, 1.6, .2, 1.6, .2, 1.6, .2, 1.6, .2))
 with row7_1:
     sijijigou = filtered_df['Branch_code2'].nunique()
-    str_sijijigou = "🏟️ "  +  str(sijijigou) + " " + " Nniform"  
+    str_sijijigou = "🏟️ "  +  str(sijijigou) + " " + " Uniform"  
     st.markdown(str_sijijigou)  
 with row7_2:
     yewubu = filtered_df['Branch_code3'].nunique()
     str_yewubu = "🏃‍♂️ " + str(yewubu) + " " + "Department"
     st.markdown(str_yewubu)
 with row7_3:
-    zuixiao = filtered_df['Jxl'].min()
-    str_zuixiao = "🥅 " + str(zuixiao) + " " + "Minimum"
+    zuixiao = filtered_df['Jxl'].var().round(2)
+    str_zuixiao = "🥅 " + str(zuixiao) + " " + "Variance"
     st.markdown(str_zuixiao)
 with row7_4:
-    mean = filtered_df['Jxl'].mean().round(2)
-    str_mean = "👟 " + str(mean) + " " + "Mean"
+    mean = filtered_df['Jxl'].median()
+    str_mean = "👟 " + str(mean) + " " + "Median"
     st.markdown(str_mean)
 
 
@@ -193,7 +196,7 @@ unique_level = ['四级机构','业务部']
 type1 = ['全部','个例']
 with row8_1:
     st.markdown("")
-    st.markdown('分析四级机构维度或业务部维度指标的数据分布机构维度或业务部维度指标的数据分布')    
+    st.markdown('分析四级机构维度或业务部维度指标的数据分布箱线图，也可以展示单个或者对比两个样本的描述性统计分析。')    
     per_level_selected = st.selectbox ("您想要分析的维度是什么?", unique_level, key = 'Branch_code2')
     per_type_selected = st.selectbox ("您想要分析具体的样本，请在下方选择'个例'?", type1, key = '分析类别')
     if per_type_selected == '个例':
@@ -305,7 +308,7 @@ if per_type_selected == '个例':
 
         row9_spacer1, row9_1, row9_spacer2 = st.columns((.2, 7.1, .2))
         with row9_1:
-             st.subheader('Analysis per Team')
+             st.markdown("#####  两个样本的对比情况")
     
         row10_spacer1, row10_1, row10_spacer2, row10_2, row10_3  = st.columns((.2, 2.3, .4, 2.3, 2.3))
         if branch_selected == '总公司':
@@ -461,3 +464,105 @@ if per_type_selected == '个例':
             st.markdown(str(zhongweishu_1) )
             fenweishu75_1 = Branch_code3_1['Jxl'].quantile(0.75).round(2) 
             st.markdown(str(fenweishu75_1) )   
+
+## 指标对比
+row15_spacer1, row15_1, row15_spacer2 = st.columns((.2, 7.1, .2))
+with row15_1:
+    st.markdown("#####  双指标散点图分析")
+
+row16_spacer1, row16_1, row16_spacer2, row16_2, row16_spacer3  = st.columns((.2, 2.5, .3, 4.2, .1))
+zhibiao_list = ['指标1','指标2','指标3']
+with row16_1:
+    zhibiao_select = st.selectbox("您要分析与哪个指标的关系呢？",zhibiao_list,key="16-1")
+
+row17_spacer1, row17_1, row17_spacer2  = st.columns((.2, 7.1, .2))
+data_list = filtered_df[['Jxl','指标1']].values.tolist()  
+with row17_1:
+     option = {
+       "title": {
+         "left": 'center',
+         "text": zhibiao_name + '与' + zhibiao_select  + '对比散点图'
+       },
+       "grid": {
+         "left": '3%',
+         "right": '7%',
+         "bottom": '7%',
+         "containLabel": 'true'
+       },
+  "tooltip": {
+    "showDelay": 0,
+    "formatter": "({c})",
+    "axisPointer": {
+      "show": 'true',
+      "type": 'cross',
+      "lineStyle": {
+        "type": 'dashed',
+        "width": 1
+      }
+    }
+  },
+       "xAxis": [
+         {
+           "type": 'value',
+           "scale": 'true',
+           "name": zhibiao_name,
+           "nameLocation": 'center',
+           "nameGap":26,
+           "axisLabel": {
+             "formatter": '{value} '
+           },
+           "splitLine": {
+             "show": 'false'
+           }
+         }
+       ],
+       "yAxis": [
+         {
+           "type": 'value',
+           "scale": 'true',
+           "name":zhibiao_select,
+           "nameLocation": 'center',
+           "nameGap":36,
+           "axisLabel": {
+             "formatter": '{value} '
+           },
+           "splitLine": {
+             "show": 'false'
+           }    
+         }
+       ],
+       "series": [
+         {
+           "name": 'aaaa',
+           "type": 'scatter',
+           "emphasis": {
+             "focus": 'series'
+           },
+           "data": data_list
+                 ,
+           "markArea": {
+             "silent": 'true',
+             "itemStyle": {
+               "color": 'transparent',
+               "borderWidth": 1,
+               "borderType": 'dashed'  
+             },
+             "data": [
+               [
+                 {
+                   "name": '数据范围',
+                   "xAxis": 'min',
+                   "yAxis": 'min'
+                 },
+                 {
+                   "xAxis": 'max',
+                   "yAxis": 'max'
+                 }
+               ]
+             ]
+           }
+         }
+       ]
+     };
+     st_echarts(options=option,height='450px',width='100%' , key="sandiantu")
+
