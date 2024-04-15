@@ -81,7 +81,7 @@ with row1_1:
 
 row2_spacer1, row2_1, row2_spacer2 = st.columns((.2, 7.1, .2))
 with row2_1:
-    st.markdown("#####  当前选择数据:")
+    st.markdown("#####  当前选择数据")
 
 
 row3_spacer1, row3_1, row3_spacer2, row3_2, row3_spacer3, row3_3, row3_spacer4, row3_4, row3_spacer5   = st.columns((.2, 1.6, .2, 1.6, .2, 1.6, .2, 1.6, .2))
