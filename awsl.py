@@ -477,6 +477,7 @@ if per_type_selected == '个例':
 ## 指标对比
 row15_spacer1, row15_1, row15_spacer2 = st.columns((.2, 7.1, .2))
 with row15_1:
+    st.markdown("")
     st.markdown("#####  双指标散点图分析")
 
 row16_spacer1, row16_1, row16_spacer2, row16_2, row16_spacer3  = st.columns((.2, 2.5, .3, 4.2, .1))
