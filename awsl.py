@@ -485,7 +485,7 @@ with row16_1:
     zhibiao_select = st.selectbox("您要分析与哪个指标的关系呢？",zhibiao_list,key="16-1")
 
 row17_spacer1, row17_1, row17_spacer2  = st.columns((.2, 7.1, .2))
-data_list = filtered_df[['Jxl','指标1']].values.tolist()  
+data_list = filtered_df[['Jxl',zhibiao_select]].values.tolist()  
 with row17_1:
      option = {
        "title": {
